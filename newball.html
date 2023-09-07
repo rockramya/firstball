@@ -1,11 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .circle{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>main</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            height: 100vh; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .game{
+            height:800px;
+            width: 800px;
+            border: 2px solid black;
+           
+        }
+        .ball{
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            /*background-color: yellow;*/
+            
+
+        }
+
+        .grid-one{
+            display:grid;
+            grid-template-rows: repeat(2,1fr);
+            grid-template-columns: repeat(2,1fr);
+            
+        }
+
+        .grid-two{
+            display: grid;
+            grid-template-rows: repeat(3,1fr);
+            grid-template-columns: repeat(3,1fr);
+            
+            
+        }
+    </style>
+
 </head>
 <body>
-    <h1>helle world</h1>
+    <h1>Ball Game!</h1>
+    <div class="circle">
+
+    </div>
+    <div class="container">
+        <div class="game">
+
+        </div>
+    </div>
+    <script>
+        window.onload=function(){
+
+            let ball=document.createElement("div")
+            ball.classList.add("ball")
+            let gamebox=document.querySelector(".game")
+            //gamebox.appendChild(ball)
+
+            let player={
+                name:"",
+                level:2
+            }
+
+
+
+
+
+            const config={
+                1:{
+                    grid:"one",
+                    circles:4},
+                2:{
+                    grid:"two",
+                    circles:9}
+                }
+
+
+            function getGridClassName(p,config){
+                return "grid-"+config[p.level].grid
+            };
+
+
+            let className=getGridClassName(player,config)
+            gamebox.classList.add(className)
+
+            
+
+            /*function getBalls(p,config){
+                let balls=[]
+                let numCircles=config[p.level].circles
+                for(let i=0;i<numCircles;i++){
+                    let ball=document.createElement("div")
+                    ball.classList.add("ball")
+                    balls.push(ball)
+                }
+                return balls
+            };*/
+
+            function getBalls(p,config){
+                let balls=[]
+                let numCircles=config[p.level].circles
+                for(let i=0;i<numCircles;i++){
+                    
+                    balls.push(getBall())
+                }
+                return balls
+            };
+
+            //newly added
+            function getBall(){
+                let ball=document.createElement("div")
+                    ball.classList.add("ball")
+                return{
+                    color:"yellow",
+                    obj:ball,
+                    toggle(){
+                        this.obj.style.backgroundColor=this.color
+                    }
+                }
+            };
+
+            let game={
+                running:false,
+                start(){
+                        this.balls=getBalls(player,config)
+                        
+                        //this.balls.forEach(ball=>gamebox.appendChild(ball))
+                        this.balls.forEach(ball=>{
+                            ball.toggle()
+                            gamebox.appendChild(ball.obj)
+
+                        })
+
+
+                        this.running=true
+
+                }
+            };
+
+                console.log(player.level,config[player.level])
+                console.log(getGridClassName(player,config))
+                game.start()
+                game.balls[0].color="red"
+                game.balls[0].toggle()
+        };
+
+        
+        
+        
+    </script>
 </body>
 </html>
