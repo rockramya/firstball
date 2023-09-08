@@ -76,11 +76,21 @@
             ball.classList.add("ball")
             let gamebox=document.querySelector(".game")
             //gamebox.appendChild(ball)
+            gamebox.onclick=function(e){
+                let clickedBall=game.balls.filter(b=>b.obj==e.target)[0]
+                if(clickedBall){
+                    if(clickedBall.color=="red")
+                    alert("Caught")
+                    else
+                    alert("wrong")
+            }
+        }
 
             let player={
                 name:"",
                 level:2
             }
+        
 
 
 
@@ -130,7 +140,7 @@
             //newly added
             function getBall(){
                 let ball=document.createElement("div")
-                    ball.classList.add("ball")
+                ball.classList.add("ball")
                 return{
                     color:"yellow",
                     obj:ball,
@@ -154,16 +164,35 @@
 
 
                         this.running=true
-
+                        // this.update()
+                },
+                update(){
+                    const ball=getRandomBall(this.balls)
+                    this.balls.map(b=>{b.color="yellow"
+                                        // return b
+                                      })
+                    ball.color="red"
+                    this.balls.map(b=>b.toggle())
                 }
-            };
+            }
+
+            function getRandomBall(balls){
+            let i=Math.ceil(Math.random()*100)%balls.length
+            return balls[i]
+        }
 
                 console.log(player.level,config[player.level])
                 console.log(getGridClassName(player,config))
                 game.start()
+                setInterval(()=>game.update(),100)
                 game.balls[0].color="red"
                 game.balls[0].toggle()
         };
+        
+    
+
+            
+        
 
         
         
